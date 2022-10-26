@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id "net.serenity-bdd.serenity-gradle-plugin" version "3.3.4"
+    id "io.freefair.lombok" version "6.5.1"
+}
+
+defaultTasks 'clean', 'test', 'aggregate'
+
+repositories {
+    println 'Running Repositories'
+    mavenCentral()
+}
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+ext {
+    slf4jVersion = '1.7.7'
+    serenityCoreVersion = '3.3.4'
+    serenityCucumberVersion = '3.3.4'
+    junitVersion = '5.9.0'
+    assertJVersion = '3.23.1'
+}
+
+dependencies {
+    implementation (
+            "net.serenity-bdd:serenity-core:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-junit:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-screenplay:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-screenplay-webdriver:${serenityCoreVersion}",
+            "net.serenity-bdd:serenity-cucumber:${serenityCucumberVersion}",
+            "org.junit.jupiter:junit-jupiter-api:${junitVersion}",
+            "org.assertj:assertj-core:${assertJVersion}")
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
